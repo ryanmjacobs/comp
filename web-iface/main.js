@@ -12,7 +12,7 @@ ws.onmessage = function(msg) {
 };
 
 ws.onopen = function() {
-    ws.send('{"hello":"world"}');
+    ws.send('{"type":"hello"}');
 };
 
 function draw(state) {
