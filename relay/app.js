@@ -15,6 +15,7 @@ wss.broadcast = function(data) {
 };
 
 wss.on("connection", function(ws) {
+    console.log("new connection");
     ws.on("message", data => wss.broadcast(data));
 });
 

@@ -15,7 +15,6 @@ h2 {
 
 .btn {
     display: inline-block;
-    background-color: pink;
 
     font-size: 4em;
     padding: 0 0.5em;
@@ -25,9 +24,11 @@ h2 {
     border-radius: 10px;
     transition: 0.2s ease-out;
 }
-.btn:hover {
-    background-color: lightgreen;
-}
+
+.off       { background-color: pink; }
+.off:hover { background-color: lightgreen; }
+.on        { background-color: lightgreen; }
+.on:hover  { background-color: salmon; }
 
 .engage {
     padding: 1em;
