@@ -79,6 +79,8 @@ function serial_write_state(state) {
     buf[3] = state.direction;
     buf[4] = state.engaged;
 
+    console.log(buf);
+
     if (port.is_open)
         port.write(buf);
 }
