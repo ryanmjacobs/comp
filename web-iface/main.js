@@ -2,6 +2,7 @@ let ws = new WebSocket("ws://" + location.hostname + ":9987");
 
 ws.onmessage = function(msg) {
     let data = JSON.parse(msg.data);
+    console.log(data);
 
     if (data.type == "update-state") {
         draw(data.state);
@@ -13,12 +14,6 @@ ws.onopen = function() {
 };
 
 function draw(state) {
-    state = {
-        motors: [true, false, true],
-        direction: true,
-        engage: false
-    };
-
     function set_btn(which, state) {
         let el = document.getElementById(which);
         el.classList.remove(["on", "off"]);
@@ -34,4 +29,21 @@ function draw(state) {
     set_btn("engage-btn", state.engage);
 }
 
-draw();
+let notify_relay = function(which) {
+    ws.send(JSON.stringify({
+        type: "client-click",
+        which: which
+    }));
+};
+
+function setup_onclick(which, callback) {
+    let el = document.getElementById(which);
+    el.onclick = () => callback(which);
+}
+
+setup_onclick("motor-btn-1",     notify_relay);
+setup_onclick("motor-btn-2",     notify_relay);
+setup_onclick("motor-btn-3",     notify_relay);
+setup_onclick("arrow-btn-left",  notify_relay);
+setup_onclick("arrow-btn-right", notify_relay);
+setup_onclick("engage-btn",      notify_relay);
