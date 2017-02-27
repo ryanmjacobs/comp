@@ -22,7 +22,7 @@ h2 {
 
     cursor: pointer;
     border-radius: 10px;
-    transition: 0.2s ease-out;
+    transition: 0.1s ease-out;
 }
 
 .off       { background-color: pink; }
