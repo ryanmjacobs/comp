@@ -1,21 +1,19 @@
 #include <Arduino.h>
 
-#define F_SWITCH 2 // fire switch
-#define A_SWITCH 3 // arm switch
-
 static int mtr_pins[] = {
     4, // (and 5) = Motor 1
     6, // (and 7) = Motor 2
     8, // (and 9) = Motor 3
 };
 
+struct state_t {
+    int motors[3];
+    int direction;
+    int engaged;
+} state;
+
 void setup() {
     Serial.begin(9600);
-    Serial.println("Rubber v0.01 -- Ready!");
-
-    // digital switches as inputs w/ pullups
-    pinMode(F_SWITCH, INPUT_PULLUP);
-    pinMode(A_SWITCH, INPUT_PULLUP);
 
     // set motors pins as OUTPUTS
     for (int i = 0; i < 3; i++) {
@@ -23,27 +21,22 @@ void setup() {
         pinMode(pin,   OUTPUT);
         pinMode(pin+1, OUTPUT);
     }
+
+    // init state
+    state.motors[0] = 0;
+    state.motors[1] = 0;
+    state.motors[2] = 0;
+    state.direction = 0;
+    state.engaged   = 0;
 }
 
 int motor_sel = 1;
 void loop() {
-    int fire = digitalRead(F_SWITCH);
-    int dir  = digitalRead(A_SWITCH);
-
     if (Serial.available()) {
         byte rx = Serial.read();
-        if (rx == '1' || rx == '2' || rx == '3' || rx == '4')
-            motor_sel = rx - 48;
     }
 
-    Serial.print("fire = ");
-    Serial.print(fire);
-    Serial.print(", dir = ");
-    Serial.print(dir);
-    Serial.print(", motor = ");
-    Serial.println(motor_sel);
-
-    if (fire) {
+    if (1) {
         if (motor_sel == 4) {
             for (int i = 1; i <= 3; i++) {
                 engage_motor(i, dir);
