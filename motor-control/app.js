@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 let WebSocket = require("ws");
-let ws = new WebSocket("ws://localhost:9987");
+let ws = new WebSocket("ws://hubble.rmj.us:9987");
+//let ws = new WebSocket("ws://localhost:9987");
 
 // setup serial port
 var SerialPort = require("serialport");
