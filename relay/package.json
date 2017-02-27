@@ -1,0 +1,14 @@
+{
+  "name": "relay",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryan Jacobs",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^2.1.0"
+  }
+}
