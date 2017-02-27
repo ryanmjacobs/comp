@@ -4,8 +4,10 @@ ws.onmessage = function(msg) {
     let data = JSON.parse(msg.data);
     console.log(data);
 
-    if (data.type == "update-state") {
-        draw(data.state);
+    switch (data.type) {
+        case "update-state":
+            draw(data);
+            break;
     }
 };
 
@@ -16,7 +18,7 @@ ws.onopen = function() {
 function draw(state) {
     function set_btn(which, state) {
         let el = document.getElementById(which);
-        el.classList.remove(["on", "off"]);
+        el.classList.remove("on", ["off"]);
         el.classList.add(state ? "on" : "off");
     }
 
@@ -26,7 +28,7 @@ function draw(state) {
 
     set_btn("arrow-btn-left", !state.direction);
     set_btn("arrow-btn-right", state.direction);
-    set_btn("engage-btn", state.engage);
+    set_btn("engage-btn", state.engaged);
 }
 
 let notify_relay = function(which) {
