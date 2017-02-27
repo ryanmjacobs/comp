@@ -1,0 +1,32 @@
+html, body {
+    font-family: sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h2 {
+    border-bottom: 1px dashed lightgray;
+}
+
+.motor-btn {
+    display: inline-block;
+
+    text-align: center;
+    background-color: pink;
+
+    font-size: 4em;
+    padding: 0 0.5em;
+    margin: 0 0.3em;
+
+    cursor: pointer;
+
+    transition: 0.2s ease-out;
+}
+.motor-btn:hover {
+    background-color: red;
+}
