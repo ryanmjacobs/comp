@@ -7,10 +7,10 @@ static int mtr_pins[] = {
 };
 
 struct state_t {
-    int motors[3];
-    int direction;
-    int engaged;
-} state;
+    byte motors[3];
+    byte direction;
+    byte engaged;
+};
 
 void setup() {
     Serial.begin(9600);
@@ -21,37 +21,34 @@ void setup() {
         pinMode(pin,   OUTPUT);
         pinMode(pin+1, OUTPUT);
     }
-
-    // init state
-    state.motors[0] = 0;
-    state.motors[1] = 0;
-    state.motors[2] = 0;
-    state.direction = 0;
-    state.engaged   = 0;
 }
 
-int motor_sel = 1;
+static int cnt = 0;
+static byte buf[5];
+
 void loop() {
     if (Serial.available()) {
-        byte rx = Serial.read();
-    }
+        buf[cnt % 5] = Serial.read();
 
-    if (1) {
-        if (motor_sel == 4) {
-            for (int i = 1; i <= 3; i++) {
-                engage_motor(i, dir);
-                delay(10);
-                engage_motor(i, 2);
-            }
-        } else {
-            engage_motor(motor_sel, dir);
-            delay(10);
-            engage_motor(motor_sel, 2);
+        if ((++cnt) % 5 == 0) {
+            struct state_t state;
+            memcpy(buf, &state, 5);
+            run_state(state);
         }
     }
 }
 
+void run_state(struct state_t state) {
+    for (int i = 0; i < 3; i++) {
+        engage_motor(i, state.motors[i] ? state.direction : 2);
+    }
+}
+
 // engage motor N for a given duration
+// Valid directions:
+//   dir=0 -> forward
+//   dir=1 -> reverse
+//   dir=2 -> disabled
 void engage_motor(int motor, int dir) {
     int pin = mtr_pins[motor-1];
 
