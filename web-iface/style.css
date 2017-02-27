@@ -22,15 +22,17 @@ h2 {
 
     cursor: pointer;
     border-radius: 10px;
-    transition: 0.1s ease-out;
+    transition: 0.15s ease-in-out;
 
     background-color: lightgray;
 }
 
 .off       { background-color: pink; }
-.off:hover { background-color: lightgreen; }
 .on        { background-color: lightgreen; }
+/*
+.off:hover { background-color: lightgreen; }
 .on:hover  { background-color: salmon; }
+*/
 
 .engage {
     padding: 1em;
