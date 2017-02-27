@@ -1,4 +1,4 @@
-let ws = new WebSocket("ws://" + location.hostname + ":9987");
+var ws = new WebSocket("ws://hubble.rmj.us:9987");
 
 ws.onmessage = function(msg) {
     let data = JSON.parse(msg.data);
