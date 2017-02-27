@@ -9,6 +9,7 @@
   "author": "Ryan Jacobs",
   "license": "MIT",
   "dependencies": {
+    "serialport": "^4.0.7",
     "ws": "^2.1.0"
   }
 }
