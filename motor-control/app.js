@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 let WebSocket = require("ws");
-let ws = new WebSocket("ws://hubble.rmj.us:9987");
-//let ws = new WebSocket("ws://localhost:9987");
+//let ws = new WebSocket("ws://hubble.rmj.us:9987");
+let ws = new WebSocket("ws://localhost:9987");
 
 // setup serial port
 var SerialPort = require("serialport");
-var port = new SerialPort("/dev/ttyUSB0", {baudRate: 115200});
+var port = new SerialPort("/dev/ttyUSB0", {baudRate: 9600});
 port.is_open = false;
 port.on("data",  d => console.log("serial_port  data: ", d.toString("utf-8").trim()));
 port.on("error", e => console.log("serial_port error: ", e.message));
@@ -71,15 +71,14 @@ function neg(arg) {
 }
 
 function serial_write_state(state) {
-    let buf = new Buffer(5);
+    let buf = new Buffer(1);
 
-    buf[0] = state.motors[0];
-    buf[1] = state.motors[1];
-    buf[2] = state.motors[2];
-    buf[3] = state.direction;
-    buf[4] = state.engaged;
-
-    console.log(buf);
+    buf[0] =
+        (state.motors[0] << 0) |
+        (state.motors[1] << 1) |
+        (state.motors[2] << 2) |
+        (state.direction << 3) |
+        (state.engaged   << 4);
 
     if (port.is_open)
         port.write(buf);

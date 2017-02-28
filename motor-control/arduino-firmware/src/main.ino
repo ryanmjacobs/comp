@@ -23,22 +23,25 @@ void setup() {
     }
 }
 
-static int cnt = 0;
-static byte buf[5];
-
 void loop() {
     if (Serial.available()) {
-        buf[cnt % 5] = Serial.read();
+        byte rx = Serial.read();
 
-        if ((++cnt) % 5 == 0) {
-            struct state_t state;
-            memcpy(buf, &state, 5);
-            run_state(state);
-        }
+        struct state_t state;
+        state.motors[0] = bitRead(rx, 0);
+        state.motors[1] = bitRead(rx, 1);
+        state.motors[2] = bitRead(rx, 2);
+        state.direction = bitRead(rx, 3);
+        state.engaged   = bitRead(rx, 4);
+
+        run_state(state);
     }
 }
 
 void run_state(struct state_t state) {
+    if (!state.engaged)
+        return;
+
     for (int i = 0; i < 3; i++) {
         engage_motor(i, state.motors[i] ? state.direction : 2);
     }
