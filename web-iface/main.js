@@ -1,5 +1,5 @@
-//let ws = new WebSocket("ws://hubble.rmj.us:9987");
-let ws = new WebSocket("ws://localhost:9987");
+let ws = new WebSocket("ws://hubble.rmj.us:9987");
+//let ws = new WebSocket("ws://localhost:9987");
 
 ws.onmessage = function(msg) {
     let data = JSON.parse(msg.data);
