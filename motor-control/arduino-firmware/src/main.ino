@@ -34,16 +34,19 @@ void loop() {
         state.direction = bitRead(rx, 3);
         state.engaged   = bitRead(rx, 4);
 
+        Serial.print(state.motors[0]);
+        Serial.print(state.motors[1]);
+        Serial.print(state.motors[2]);
+        Serial.print(state.direction);
+        Serial.println(state.engaged);
+
         run_state(state);
     }
 }
 
 void run_state(struct state_t state) {
-    if (!state.engaged)
-        return;
-
     for (int i = 0; i < 3; i++) {
-        engage_motor(i, state.motors[i] ? state.direction : 2);
+        engage_motor(i, (state.motors[i] && state.engaged) ? state.direction : 2);
     }
 }
 
@@ -53,7 +56,7 @@ void run_state(struct state_t state) {
 //   dir=1 -> reverse
 //   dir=2 -> disabled
 void engage_motor(int motor, int dir) {
-    int pin = mtr_pins[motor-1];
+    int pin = mtr_pins[motor];
 
     if (dir == 0) {
         digitalWrite(pin,   LOW);
